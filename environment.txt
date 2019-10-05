@@ -1,0 +1,88 @@
+
+A. H/W 준비사항
+노트북
+Ubuntu 16.04 (권장) 또는 Windows
+
+--
+
+B. 개발환경 구성
+1-0. Docker 선택 이유
+일반적으로 딥러닝 설치 환경은 구성하기가 까다롭고 시간이 많이 걸리는 작업
+설치를 했다고 해도 프로젝트마다 성격에 맞지 않으면 추가 환경을 구성하게 된다.
+일반적으로 이런 경우 anaconda , virtual environment 등을 구성하여 해결을 하기도 하지만
+최근에는 서비스 개발 및 배포 그리고 운영시 scale up/out 등등을 위해서 클라우드를 고려하여 
+시작되는 분위기다.
+이경우 대표적인 방법이 Docker 를 사용한 구성이며 대부분의 회사가  training server 를 제외한
+개발환경은 이런식으로 구성한다.
+진행할 프로젝트 또한 시작절약 ,  준비물 구비한계 ,  편리성 등을 이유로 Docker 환경을 구성하고 시작.
+
+1-1. docker 설치
+1-1-1. windows 에서 설치 가이드
+Docker for windows 설치 : [ *** docker toolbox 아님 ] 
+https://docs.docker.com/docker-for-windows/install/#download-docker-for-windows
+참고 [ hyper-v 등등 ]
+https://steemit.com/kr/@mystarlight/docker
+**옵션 [ 도커로 만들 이미지 사이즈가 크기 때문에 여유있는 hdd 선택 가이드 ]
+https://ohjongsung.io/2018/11/25/windows-10-pro-%EC%97%90-docker-%EC%99%80-mysql-%EC%84%A4%EC%B9%98
+
+
+1-1-2. ubuntu 에서 설치 가이드
+https://docs.docker.com/install/linux/docker-ce/ubuntu/
+
+
+2. Deepo 이미지 설치 
+: 다른 딥러닝 이미지도 있지만 가장 최신 framework / gpu library 등을 지원
+
+2-1. cpu 버전 설치 가이드 [ 윈도 사용자의 경우 또는 NVidia GPU 가 없는 경우 ]
+https://github.com/ufoym/deepo#CPU
+
+2-2. gpu 버전 설치 가이드 [ Ubuntu 사용자 이면서 GPU 가 있는 경우 ]
+ https://github.com/ufoym/deepo#GPU
+GPU 의 경우 선행 설치 사항중 가장 중요한 부분이 nvidia-docker 설치
+https://github.com/NVIDIA/nvidia-docker
+
+
+
+3. Deepo 이미지 실행하는법 
+: 복잡해 보이지만 여러가지 이유로 언제나 사용되는 옵션 [ GUI 실행 , 카메라 연동 , 공유폴더 , 소켓포트공유 ,  ,,, ]
+: 볼륨 공유 옵션    /home/funzin/projects:/projects
+: 이미지 이름   ufoym/deepo
+
+3-1. 형식
+docker run --runtime=nvidia -it --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --device /dev/snd -v /tmp/.X11-unix  --privileged  --env="QT_X11_NO_MITSHM=1"  -v /dev/video0:/dev/video0  -v /dev/video1:/dev/video1   -p 8888:8888 -p 6006:6006 -v 실제공유폴더:이미지내부에만들고자하는폴더이름      이미지-이름
+
+3-2. 실제  사용 예제 
+docker run --runtime=nvidia -it --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --device /dev/snd -v /tmp/.X11-unix  --privileged  --env="QT_X11_NO_MITSHM=1"  -v /dev/video0:/dev/video0  -v /dev/video1:/dev/video1   -p 8888:8888 -p 6006:6006 -v /home/funzin/projects:/projects      ufoym/deepo
+
+GPU 전용 : -v 를 수정해서 사용할것 
+docker run --runtime=nvidia -it --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --device /dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix  --privileged  --env="QT_X11_NO_MITSHM=1"  -v /dev/video0:/dev/video0  -v /dev/video1:/dev/video1   -p 8888:8888 -p 6006:6006 -v /home/funzin/projects:/projects      ufoym/deepo
+
+CPU 전용 :  -v 를 수정해서 사용할것 
+docker run  -it --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --device /dev/snd -v /tmp/.X11-unix:/tmp/.X11-unix  --privileged  --env="QT_X11_NO_MITSHM=1"  -v /dev/video0:/dev/video0  -v /dev/video1:/dev/video1   -p 8888:8888 -p 6006:6006 -v /home/funzin/projects:/projects      ufoym/deepo
+
+
+
+
+4. 추가설치사항
+4-1. jupyter notebook 등등은 프로젝트 진행하면서 예정
+# https://jupyter.readthedocs.io/en/latest/install.html
+pip3 install jupyter
+
+
+4-2. vscode
+# 
+https://webnautes.tistory.com/1197
+# 
+apt-get update
+apt-get upgrade
+ apt-get install curl
+  sh -c 'curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /etc/apt/trusted.gpg.d/microsoft.gpg'
+ sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+ apt-get update
+ apt-get install code
+
+4-3. in ~/.bashrc
+alias qqq='nohup nautilus . > /dev/null 2>&1'
+alias vscode='code --user-data-dir /tmp'
+
+

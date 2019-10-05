@@ -1,0 +1,109 @@
+Subject : autonomous driving
+
+https://colab.research.google.com/drive/11Lrs8GyqbAt7BdJg0Z5DtHkroSLvqbWj#scrollTo=4_0OEKRXFGNP
+
+
+1. car-nd simulator
+https://github.com/udacity/self-driving-car-sim
+
+- unity3d -> traffic signal object(prepap)
+- object asset
+- script how to
+
+
+2. pilotNet
+*** https://arxiv.org/pdf/1604.07316.pdf
+
+- 2~5 case study
+
+case1> data is missing (GTV)
+-https://github.com/0bserver07/Nvidia-Autopilot-Keras
+-https://www.groundai.com/project/g2d-from-gta-to-data/1
+
+
+case2>
+http://cs231n.stanford.edu/reports/2017/pdfs/626.pdf
+
+
+
+>>> data upload for colab demo with pilotnet <<<
+
+echo "# driving1" >> README.md
+git init
+git add README.md
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/freelifedev/driving1.git
+git push -u origin master
+
+---------------------------------------------------------------------------------------------
+*** Please tell me who you are.
+
+Run
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+-------------------------------------------------------------------------------------------
+
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+git config --global -l
+
+TOOD> 
+ㄱ> Lake Track 정주행 2회  및 역주행 2회 데이터 git 에 업로드 
+ㄴ> 해당 데이터로 데이터 분석
+ㄷ> data augment 를 통한  jungle track 완주 가능 모델 작성 
+
+
+
+
+3. basic lecture
+- technical terms
+
+
+- the princeple
+*https://nmhkahn.github.io/NN
+*https://ratsgo.github.io/deep%20learning/2017/04/22/NNtricks/
+*https://missinglink.ai/guides/neural-network-concepts/7-types-neural-network-activation-functions-right/
+
+
+
+4. basic regression / classification / CNN
+
+
+
+
+
+< 추가 고려 사항 >
+traffic sign
+traffic light
+vchicle detection
+lanenet
+
+NVIDIA main autonomous page
+NVIDIA DRIVE Networks
+https://developer.nvidia.com/drive/drive-networks
+
+DriveNet(DepthNet) --- DriveNet is used for obstacle and wait perception. It detects and classifies objects such as vehicles (including cars and trucks), pedestrians, traffic lights, traffic signs, and bicycles.
+
+PathNet - PathNet predicts full geometry of drivable paths in images and on the three-dimensional road surface, regardless of the presence of lane markings.
+
+WaitNet - WaitNet detects an intersection and estimates the distance.
+
+LightNet - LightNet classifies traffic lights (color, solid, and arrows) detected by DriveNet.
+
+MapNet - MapNet detects visual landmarks such as lanes and poles. It can detect features useful for path perception, as well as localization.
+
+
+ClearSightNet - ClearSightNet determines if the camera view is blocked. It can predict three classes (clean, blur, blocked).
+
+OpenRoadNet - OpenRoadNet detects free space around the vehicle. It distinguishes the boundary that separates obstacles from
+the driveable collision-free space.
+
+SignNet - SignNet classifies traffic signs detected by DriveNet, for US and EU.
+
+LaneNet - LaneNet detects and classifies lanes, including the vehicle’s ego-lane, adjacent lanes, and non-adjacent lanes.
+
